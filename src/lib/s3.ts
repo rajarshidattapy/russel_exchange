@@ -1,30 +1,18 @@
-import { env } from "@/env";
-import {
-  S3Client,
-  ListBucketsCommand,
-  ListObjectsV2Command,
-  GetObjectCommand,
-  PutObjectCommand,
-} from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { writeFile } from "fs/promises";
+import path from "path";
 
-const s3Client = new S3Client({
-  region: "auto",
-  endpoint: `https://${env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: env.CLOUDFLARE_ACCESS_KEY_ID,
-    secretAccessKey: env.CLOUDFLARE_SECRET_ACCESS_KEY,
-  },
-});
+export async function saveFileLocally(
+  file: File,
+  fileName: string
+): Promise<string> {
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-export async function getSignedUrlForS3Object(key: string, type: string) {
-  return await getSignedUrl(
-    s3Client,
-    new PutObjectCommand({
-      Bucket: env.BUCKET_NAME,
-      Key: key,
-      ContentType: type,
-    }),
-    { expiresIn: 3600 }
-  );
+  // Save to public/uploads directory
+  const uploadDir = path.join(process.cwd(), "public", "uploads");
+  const filePath = path.join(uploadDir, fileName);
+
+  await writeFile(filePath, new Uint8Array(buffer));
+  
+  return fileName;
 }

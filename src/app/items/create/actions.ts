@@ -5,19 +5,15 @@ import { database } from "@/db/database";
 import { items } from "@/db/schema";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { getSignedUrlForS3Object } from "@/lib/s3";
-
-export async function createUploadUrlAction(key: string, type: string) {
-  return await getSignedUrlForS3Object(key, type);
-}
+import { saveFileLocally } from "@/lib/s3";
 
 export async function createItemAction({
-  fileName,
+  file,
   name,
   startingPrice,
   endDate,
 }: {
-  fileName: string;
+  file: File;
   name: string;
   startingPrice: number;
   endDate: Date;
@@ -33,6 +29,15 @@ export async function createItemAction({
   if (!user || !user.id) {
     throw new Error("Unauthorized");
   }
+
+  // Generate unique filename
+  const timestamp = Date.now();
+  const originalName = file.name;
+  const extension = originalName.split('.').pop();
+  const uniqueFileName = `${timestamp}-${Math.random().toString(36).substring(7)}.${extension}`;
+
+  // Save file locally
+  const fileName = await saveFileLocally(file, uniqueFileName);
 
   await database.insert(items).values({
     name,
