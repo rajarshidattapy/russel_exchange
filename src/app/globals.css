@@ -71,6 +71,14 @@
       @apply border-border;
     }
     body {
-      @apply bg-background text-foreground;
+      @apply bg-amber-100 text-foreground;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(245, 158, 11, 0.03) 2px,
+          rgba(245, 158, 11, 0.03) 4px
+        );
     }
   }

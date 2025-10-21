@@ -12,10 +12,15 @@ export default function CreatePage() {
 
   return (
     <main className="space-y-8">
-      <h1 className={pageTitleStyles}>Post an Item</h1>
+      <div className="bg-amber-50 border-4 border-amber-800 p-6 rounded-lg shadow-xl max-w-2xl">
+        <h1 className="text-4xl font-bold font-serif text-amber-900 mb-2">Consign Your Item</h1>
+        <p className="text-amber-800 font-serif italic">
+          Submit your vintage furniture, antiques, or collectibles for our weekly Sunday auction
+        </p>
+      </div>
 
       <form
-        className="flex flex-col border p-8 rounded-xl space-y-4 max-w-lg"
+        className="flex flex-col border-4 border-amber-800 bg-amber-50 p-8 rounded-lg shadow-lg space-y-4 max-w-lg"
         onSubmit={async (e) => {
           e.preventDefault();
 
@@ -42,22 +47,29 @@ export default function CreatePage() {
       >
         <Input
           required
-          className="max-w-lg"
+          className="max-w-lg border-2 border-amber-700 font-serif"
           name="name"
-          placeholder="Name your item"
+          placeholder="Item description (e.g., Victorian Mahogany Chair)"
         />
         <Input
           required
-          className="max-w-lg"
+          className="max-w-lg border-2 border-amber-700 font-serif"
           name="startingPrice"
           type="number"
           step="0.01"
-          placeholder="What to start your auction at"
+          placeholder="Reserve price in rupees"
         />
-        <Input type="file" name="file"></Input>
+        <Input
+          type="file"
+          name="file"
+          className="border-2 border-amber-700 font-serif"
+        ></Input>
         <DatePickerDemo date={date} setDate={setDate} />
-        <Button className="self-end" type="submit">
-          Post Item
+        <Button
+          className="self-end bg-amber-800 hover:bg-amber-900 text-amber-50 font-serif"
+          type="submit"
+        >
+          Submit Lot
         </Button>
       </form>
     </main>

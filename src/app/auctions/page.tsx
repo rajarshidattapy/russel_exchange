@@ -21,7 +21,12 @@ export default async function MyAuctionPage() {
 
   return (
     <main className="space-y-8">
-      <h1 className={pageTitleStyles}>Your Current Auctions</h1>
+      <div className="bg-amber-50 border-4 border-amber-800 p-6 rounded-lg shadow-xl">
+        <h1 className="text-4xl font-bold font-serif text-amber-900">Your Consigned Lots</h1>
+        <p className="text-amber-800 font-serif italic mt-2">
+          Items you have submitted to The Russell Exchange
+        </p>
+      </div>
 
       {hasItems ? (
         <div className="grid grid-cols-4 gap-8">

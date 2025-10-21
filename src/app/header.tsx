@@ -20,33 +20,38 @@ export function Header() {
   const userId = session?.data?.user?.id;
 
   return (
-    <div className="bg-gray-200 py-2">
+    <div className="bg-amber-900 py-4 border-b-4 border-amber-700 shadow-lg">
       <div className="container flex justify-between items-center">
         <div className="flex items-center gap-12">
-          <Link href="/" className="hover:underline flex items-center gap-1">
-            <Image src="/logo.png" width="50" height="50" alt="Logo" />
-            BidBuddy.com
+          <Link href="/" className="hover:opacity-80 flex flex-col items-center gap-1 transition-opacity">
+            <Image src="/logo.png" width="60" height="60" alt="Logo" />
+            <div className="text-amber-50 font-serif text-xl font-bold tracking-wide">
+              THE RUSSELL EXCHANGE
+            </div>
+            <div className="text-amber-200 text-xs font-serif italic">
+              Est. 1940 - Russell Street, Kolkata
+            </div>
           </Link>
 
           <div className="flex items-center gap-8">
-            <Link href="/" className="hover:underline flex items-center gap-1">
-              All Auctions
+            <Link href="/" className="text-amber-50 hover:text-amber-200 transition-colors font-serif flex items-center gap-1">
+              Weekly Auctions
             </Link>
 
             {userId && (
               <>
                 <Link
                   href="/items/create"
-                  className="hover:underline flex items-center gap-1"
+                  className="text-amber-50 hover:text-amber-200 transition-colors font-serif flex items-center gap-1"
                 >
-                  Create Auction
+                  Consign Item
                 </Link>
 
                 <Link
                   href="/auctions"
-                  className="hover:underline flex items-center gap-1"
+                  className="text-amber-50 hover:text-amber-200 transition-colors font-serif flex items-center gap-1"
                 >
-                  My Auctions
+                  My Lots
                 </Link>
               </>
             )}
@@ -90,13 +95,14 @@ export function Header() {
               width="40"
               height="40"
               alt="user avatar"
-              className="rounded-full"
+              className="rounded-full border-2 border-amber-200"
             />
           )}
-          <div>{session?.data?.user?.name}</div>
+          <div className="text-amber-50 font-serif">{session?.data?.user?.name}</div>
           <div>
             {userId ? (
               <Button
+                className="bg-amber-700 hover:bg-amber-800 text-amber-50 font-serif"
                 onClick={() =>
                   signOut({
                     callbackUrl: "/",
@@ -106,7 +112,11 @@ export function Header() {
                 Sign Out
               </Button>
             ) : (
-              <Button type="submit" onClick={() => signIn()}>
+              <Button
+                className="bg-amber-700 hover:bg-amber-800 text-amber-50 font-serif"
+                type="submit"
+                onClick={() => signIn()}
+              >
                 Sign In
               </Button>
             )}

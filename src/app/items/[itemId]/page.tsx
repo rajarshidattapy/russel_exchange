@@ -30,14 +30,14 @@ export default async function ItemPage({
       <div className="space-y-8 flex flex-col items-center mt-12">
         <Image src="/package.svg" width="200" height="200" alt="Package" />
 
-        <h1 className={pageTitleStyles}>Item not found</h1>
-        <p className="text-center">
-          The item you&apos;re trying to view is invalid.
+        <h1 className="text-4xl font-bold font-serif text-amber-900">Lot Not Found</h1>
+        <p className="text-center font-serif text-amber-800">
+          The lot you&apos;re trying to view is invalid.
           <br />
-          Please go back and search for a different auction item.
+          Please go back and browse our available lots.
         </p>
 
-        <Button asChild>
+        <Button asChild className="bg-amber-800 hover:bg-amber-900 text-amber-50 font-serif">
           <Link href={`/`}>View Auctions</Link>
         </Button>
       </div>
@@ -55,50 +55,52 @@ export default async function ItemPage({
     <main className="space-y-8">
       <div className="flex gap-8">
         <div className="flex flex-col gap-6">
-          <h1 className={pageTitleStyles}>
-            <span className="font-normal">Auction for</span> {item.name}
-          </h1>
+          <div className="bg-amber-50 border-4 border-amber-800 p-6 rounded-lg">
+            <h1 className="text-4xl font-bold font-serif text-amber-900">
+              <span className="font-normal">Lot:</span> {item.name}
+            </h1>
+          </div>
           {isBidOver(item) && (
-            <Badge className="w-fit" variant="destructive">
-              Bidding Over
+            <Badge className="w-fit font-serif" variant="destructive">
+              Lot Closed
             </Badge>
           )}
 
           <Image
-            className="rounded-xl"
+            className="rounded-lg border-4 border-amber-800 shadow-xl"
             src={getImageUrl(item.fileKey)}
             alt={item.name}
             width={400}
             height={400}
           />
-          <div className="text-xl space-y-4">
-            <div>
+          <div className="text-xl space-y-4 bg-amber-50 border-2 border-amber-800 p-6 rounded-lg font-serif">
+            <div className="text-amber-900">
               Current Bid{" "}
               <span className="font-bold">
-                ${formatToDollar(item.currentBid)}
+                ₹{formatToDollar(item.currentBid)}
               </span>
             </div>
-            <div>
-              Starting Price of{" "}
+            <div className="text-amber-800">
+              Reserve Price{" "}
               <span className="font-bold">
-                ${formatToDollar(item.startingPrice)}
+                ₹{formatToDollar(item.startingPrice)}
               </span>
             </div>
-            <div>
-              Bid Interval{" "}
+            <div className="text-amber-700">
+              Bid Increment{" "}
               <span className="font-bold">
-                ${formatToDollar(item.bidInterval)}
+                ₹{formatToDollar(item.bidInterval)}
               </span>
             </div>
           </div>
         </div>
 
         <div className="space-y-4 flex-1">
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-bold">Current Bids</h2>
+          <div className="flex justify-between items-center bg-amber-50 border-4 border-amber-800 p-4 rounded-lg">
+            <h2 className="text-2xl font-bold font-serif text-amber-900">Bidding History</h2>
             {canPlaceBid && (
               <form action={createBidAction.bind(null, item.id)}>
-                <Button>Place a Bid</Button>
+                <Button className="bg-amber-800 hover:bg-amber-900 text-amber-50 font-serif">Place Bid</Button>
               </form>
             )}
           </div>
@@ -106,31 +108,32 @@ export default async function ItemPage({
           {hasBids ? (
             <ul className="space-y-4">
               {allBids.map((bid) => (
-                <li key={bid.id} className="bg-gray-100 rounded-xl p-8">
-                  <div className="flex gap-4">
+                <li key={bid.id} className="bg-amber-50 border-2 border-amber-800 rounded-lg p-6">
+                  <div className="flex gap-4 font-serif text-amber-900">
                     <div>
                       <span className="font-bold">
-                        ${formatToDollar(bid.amount)}
+                        ₹{formatToDollar(bid.amount)}
                       </span>{" "}
                       by <span className="font-bold">{bid.user.name}</span>
                     </div>
-                    <div className="">{formatTimestamp(bid.timestamp)}</div>
+                    <div className="text-amber-700">{formatTimestamp(bid.timestamp)}</div>
                   </div>
                 </li>
               ))}
             </ul>
           ) : (
-            <div className="flex flex-col items-center gap-8 bg-gray-100 rounded-xl p-12">
+            <div className="flex flex-col items-center gap-8 bg-amber-50 border-4 border-amber-800 rounded-lg p-12">
               <Image
                 src="/package.svg"
                 width="200"
                 height="200"
                 alt="Package"
               />
-              <h2 className="text-2xl font-bold">No bids yet</h2>
+              <h2 className="text-2xl font-bold font-serif text-amber-900">No bids yet</h2>
+              <p className="font-serif text-amber-700 italic">Be the first to bid on this lot</p>
               {canPlaceBid && (
                 <form action={createBidAction.bind(null, item.id)}>
-                  <Button>Place a Bid</Button>
+                  <Button className="bg-amber-800 hover:bg-amber-900 text-amber-50 font-serif">Place Opening Bid</Button>
                 </form>
               )}
             </div>
